@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package smartboat.telemetry;
+
+message GpsPoint {
+  double latitude = 1;
+  double longitude = 2;
+  float speed = 3;             // Tốc độ (hải lý/giờ - knots)
+  float heading = 4;           // Hướng di chuyển (0 - 360 độ)
+  int64 recorded_at = 5;       // Unix timestamp tính theo milliseconds
+  float accuracy = 6;          // Độ chính xác GPS (mét)
+  int32 battery_level = 7;     // Phần trăm pin (0 - 100)
+  int32 status = 8;            // Trạng thái (0: neo đậu, 1: đang chạy, 2: đánh bắt, 3: thu mua, 4: sự cố)
+}
+
+message GpsBatchRequest {
+  int32 ship_id = 1;
+  int64 sea_trip_id = 2;
+  repeated GpsPoint points = 3;
+  string device_id = 4;
+}
+
+message GpsBatchResponse {
+  bool success = 1;
+  int32 processed_count = 2;
+  int64 server_time = 3;
+  string message = 4;
+}
+
+message LiveLocationUpdate {
+  int32 ship_id = 1;
+  int32 city_id = 2;
+  double latitude = 3;
+  double longitude = 4;
+  float speed = 5;
+  float heading = 6;
+  int64 recorded_at = 7;
+  int32 status = 8;
+}

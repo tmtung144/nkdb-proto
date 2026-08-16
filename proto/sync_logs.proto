@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package smartboat.sync;
+
+message FishCatch {
+  int32 fish_id = 1;
+  string fish_name = 2;
+  string fish_code = 3;
+  float quantity = 4;          // Khối lượng tính theo kg
+  int32 status = 5;
+}
+
+message MiningHaul {
+  int32 local_id = 1;
+  int32 numerical_order = 2;
+  int64 started_at = 3;        // Unix timestamp (ms)
+  double start_lat = 4;
+  double start_lng = 5;
+  int64 ended_at = 6;          // Unix timestamp (ms)
+  double end_lat = 7;
+  double end_lng = 8;
+  int32 status = 9;
+  int32 transferred = 10;
+  int32 transferred_ship_id = 11;
+  repeated FishCatch outputs = 12;
+}
+
+message FishingLogSync {
+  int32 id = 1;
+  int32 mining_ship_id = 2;
+  int64 sea_trip_id = 3;
+  string captain_name = 4;
+  string captain_cic = 5;
+  int64 exported_at = 6;
+  int64 imported_at = 7;
+  string port_export = 8;
+  string port_import = 9;
+  string book_number = 10;
+  repeated MiningHaul hauls = 11;
+}
+
+message PurchasingLogSync {
+  int32 id = 1;
+  int32 type = 2;               // 1: Thu mua, 2: Chuyển tải
+  int32 purchasing_ship_id = 3;
+  int32 sale_ship_id = 4;
+  int64 sea_trip_id = 5;
+  int64 sale_sea_trip_id = 6;
+  int32 status = 7;
+  string captain_name = 8;
+  double lat = 9;
+  double lng = 10;
+  int64 time = 11;
+  int64 exported_at = 12;
+  string port_export = 13;
+  repeated MiningHaul hauls = 14;
+}
+
+message SyncLogsRequest {
+  int32 ship_id = 1;
+  int64 sea_trip_id = 2;
+  repeated FishingLogSync fishing_logs = 3;
+  repeated PurchasingLogSync purchasing_logs = 4;
+}
+
+message SyncLogsResponse {
+  bool success = 1;
+  int32 synced_fishing_count = 2;
+  int32 synced_purchasing_count = 3;
+  int64 server_time = 4;
+  string message = 5;
+}

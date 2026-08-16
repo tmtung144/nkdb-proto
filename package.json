@@ -1,0 +1,21 @@
+{
+  "name": "@nkdb/proto",
+  "version": "1.0.0",
+  "description": "Shared Protocol Buffers Schemas & Generated Types for SmartBoat 4.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build:proto": "mkdir -p src/generated && pbjs -t static-module -w commonjs -o src/generated/proto.js proto/*.proto && pbts -o src/generated/proto.d.ts src/generated/proto.js",
+    "build:ts": "tsc && mkdir -p dist/generated && cp -r src/generated/* dist/generated/",
+    "build": "pnpm run build:proto && pnpm run build:ts",
+    "prepare": "pnpm run build",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "protobufjs": "^7.4.0"
+  },
+  "devDependencies": {
+    "protobufjs-cli": "^1.1.3",
+    "typescript": "^5.8.2"
+  }
+}
