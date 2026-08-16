@@ -8,7 +8,6 @@
     "build:proto": "mkdir -p src/generated && pbjs -t static-module -w commonjs -o src/generated/proto.js proto/*.proto && pbts -o src/generated/proto.d.ts src/generated/proto.js",
     "build:ts": "tsc && mkdir -p dist/generated && cp -r src/generated/* dist/generated/",
     "build": "pnpm run build:proto && pnpm run build:ts",
-    "prepare": "pnpm run build",
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
